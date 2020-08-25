@@ -8,6 +8,15 @@ function init() {
   let spaceShuttleHeight = document.getElementById("spaceShuttleHeight");
   let landBtn = document.getElementById("landing");
   let abortBtn = document.getElementById("missionAbort");
+  let rocket = document.getElementById("rocket");
+  rocket.style.position = 'absolute';
+  rocket.style.left = '0px';
+  rocket.style.bottom = '0px';
+  
+  let upBtn = document.getElementById("up");
+  let downBtn = document.getElementById("down");
+  let rightBtn = document.getElementById("right");
+  let leftBtn = document.getElementById("left");
 
 
 
@@ -16,7 +25,7 @@ function init() {
     if(response) {
       flightStatus.innerHTML = "Shuttle in flight";
       shuttleBackground.style.backgroundColor = "blue";
-      changeHeight(false, false, true);
+      changeRocketLocation("takeoff");
     }
   });
 
@@ -24,7 +33,7 @@ function init() {
     window.alert("The shuttle is landing. Landing gear engaged!");
     flightStatus.innerHTML = "The shuttle has landed.";
     shuttleBackground.style.backgroundColor = "green";
-    changeHeight(false,true);
+    changeRocketLocation("land");
   });
 
   abortBtn.addEventListener("click", function() {
@@ -32,28 +41,74 @@ function init() {
     if(response) {
       flightStatus.innerHTML = "Mission aborted.";
       shuttleBackground.style.backgroundColor = "green";
-      changeHeight(false, true);
+      changeRocketLocation("abort");
     }
   })
 
+  upBtn.addEventListener("click", function() {
+    changeRocketLocation("up");
+  })
 
+  downBtn.addEventListener("click", function() {
+    changeRocketLocation("down");
+  })
+  rightBtn.addEventListener("click", function() {
+    changeRocketLocation("right");
+  })
 
+  leftBtn.addEventListener("click", function() {
+    changeRocketLocation("left");
+  })
 
 }
 
 
-function changeHeight(increase = true, land = false, initialTakeOff = false) {
+function changeRocketLocation(buttonClicked) {
   let height = Number(spaceShuttleHeight.innerHTML);
-  if(land) {
+  let leftValue = parseInt(rocket.style.left);
+  if(buttonClicked === "land") {
     height = 0;
-  } else if(initialTakeOff) {
+    
+  } else if(buttonClicked === "abort") {
+    height = 0;
+    leftMarginValue = 0;
+    
+  } else if(buttonClicked === "takeoff") {
     height = 10000;
-  } else if (increase) {
+    
+  } else if (buttonClicked === "up") {
     height += 10000;
-  } else {
+    
+  } else if (buttonClicked === "down"){
     height -= 10000;
+    if(height < 0) {
+      height = 0;
+    }
+    
+  } else if (buttonClicked === "right") {
+    leftValue += 10;
+    
+  } else if (buttonClicked === "left") {
+    leftValue -= 10;
+    if(leftValue < 0) {
+      leftValue = 0;
+    }
+    
   }
+  moveRocket(height, leftValue);
   spaceShuttleHeight.innerHTML = height;
 }
+
+function moveRocket(height, leftValue) {  
+  if(height === 0 ) {
+    rocket.style.bottom = '0px';
+  } else {
+    let pixelHeight = 10 * height/10000;
+    rocket.style.bottom = pixelHeight + 'px';
+
+  }
+  rocket.style.left = leftValue + 'px';
+}
+
 
 window.onload = init;
