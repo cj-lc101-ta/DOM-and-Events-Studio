@@ -7,6 +7,7 @@ function init() {
   let shuttleBackground = document.getElementById("shuttleBackground");
   let spaceShuttleHeight = document.getElementById("spaceShuttleHeight");
   let landBtn = document.getElementById("landing");
+  let abortBtn = document.getElementById("missionAbort");
 
 
 
@@ -17,13 +18,22 @@ function init() {
       shuttleBackground.style.backgroundColor = "blue";
       changeHeight(false, false, true);
     }
-  })
+  });
 
   landBtn.addEventListener("click", function() {
     window.alert("The shuttle is landing. Landing gear engaged!");
     flightStatus.innerHTML = "The shuttle has landed.";
     shuttleBackground.style.backgroundColor = "green";
     changeHeight(false,true);
+  });
+
+  abortBtn.addEventListener("click", function() {
+    let response = window.confirm("Confirm that you want to abort the mission.");
+    if(response) {
+      flightStatus.innerHTML = "Mission aborted.";
+      shuttleBackground.style.backgroundColor = "green";
+      changeHeight(false, true);
+    }
   })
 
 
