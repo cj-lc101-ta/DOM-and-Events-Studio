@@ -6,7 +6,7 @@ function init() {
   let flightStatus = document.getElementById("flightStatus");
   let shuttleBackground = document.getElementById("shuttleBackground");
   let spaceShuttleHeight = document.getElementById("spaceShuttleHeight");
-
+  let landBtn = document.getElementById("landing");
 
 
 
@@ -17,6 +17,13 @@ function init() {
       shuttleBackground.style.backgroundColor = "blue";
       changeHeight(false, false, true);
     }
+  })
+
+  landBtn.addEventListener("click", function() {
+    window.alert("The shuttle is landing. Landing gear engaged!");
+    flightStatus.innerHTML = "The shuttle has landed.";
+    shuttleBackground.style.backgroundColor = "green";
+    changeHeight(false,true);
   })
 
 
